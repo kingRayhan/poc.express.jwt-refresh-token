@@ -29,7 +29,7 @@ router.post("/auth/login", (req, res) => {
   });
 });
 
-router.post("/auth/refresh/", verifyRefreshToken, (req, res) => {
+router.post("/auth/refresh", verifyRefreshToken, (req, res) => {
   const token = createToken(req.user);
   res.json({
     token,
@@ -42,7 +42,7 @@ router.get("/auth/me", authenticated, (req, res) => {
   });
 });
 
-router.get("/secure", authenticated, (req, res) => {
+router.get("/protected-route", authenticated, (req, res) => {
   res.json({
     message: "This is very secret information",
   });
