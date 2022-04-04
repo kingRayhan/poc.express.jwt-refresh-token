@@ -1,4 +1,4 @@
-## Dummy JWT authentication api for testing
+## Authentication api for testing
 
 ### APIS
 
