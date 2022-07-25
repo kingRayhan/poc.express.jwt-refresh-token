@@ -10,6 +10,12 @@ const router = express.Router();
 app.use(cors());
 app.use(express.json());
 
+router.get("/", () => {
+  return {
+    message: "API is running",
+  };
+});
+
 router.post("/auth/login", (req, res) => {
   if (
     !(
