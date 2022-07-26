@@ -1,10 +1,10 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 const authenticated = require("./middlewares/authenticated");
 const verifyRefreshToken = require("./middlewares/verifyRT");
 const app = express();
 const router = express.Router();
-app.use(router);
 
 app.use(cors());
 app.use(express.json());

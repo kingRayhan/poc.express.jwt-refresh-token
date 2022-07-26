@@ -2,20 +2,29 @@ const { createToken } = require("../../lib/token");
 const { generateUser } = require("../../lib/user");
 
 const _login = (req, res) => {
+  const { email, password } = req.body;
   if (
-    !(
-      req.body.email === "example@example.com" &&
-      req.body.password === "pa$$word"
-    )
+    !email ||
+    !password ||
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
+    password.length < 6 ||
+    password.length > 20
   ) {
-    return res.status(401).json({
+    return res.status(400).json({
+      message: "Invalid payload",
+    });
+  }
+
+  // match email and password
+  if (!(email === "example@example.com" && password === "pa$$word")) {
+    return res.status(400).json({
       message: "Invalid credentials",
     });
   }
-  const user = generateUser();
-  const token = createToken(user);
 
-  res.json({ token });
+  return res.json({
+    token: createToken(generateUser()),
+  });
 };
 
 module.exports = _login;
