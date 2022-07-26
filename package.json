@@ -1,23 +1,22 @@
 {
-  "name": "refresh-token",
+  "name": "refresh-token-based-dummy-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "env-cmd nodemon index"
+    "dev": "nodemon index"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^7.3.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "env-cmd": "^10.0.1",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "nodemon": "^1.19.3"
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
-    "@faker-js/faker": "^6.1.1"
+    "nodemon": "^2.0.19"
   }
 }

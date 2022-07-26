@@ -1,53 +1,36 @@
 const express = require("express");
 const cors = require("cors");
-const app = express();
-const { createToken } = require("./lib/token");
-const { generateUser } = require("./lib/user");
 const authenticated = require("./middlewares/authenticated");
 const verifyRefreshToken = require("./middlewares/verifyRT");
+const app = express();
 const router = express.Router();
+app.use(router);
 
 app.use(cors());
 app.use(express.json());
 
-router.get("/", () => {
-  return {
-    message: "API is running",
-  };
-});
-
-router.post("/auth/login", (req, res) => {
-  if (
-    !(
-      req.body.email === "example@example.com" &&
-      req.body.password === "pa$$word"
-    )
-  ) {
-    return res.status(401).json({
-      message: "Invalid credentials",
-    });
-  }
-  const user = generateUser();
-  const token = createToken(user);
-
+router.get("/", (_, res) => {
   res.json({
-    token,
+    message: "Refresh token based jwt authentication dummy API",
+    repository:
+      "https://github.com/kingRayhan/dummy-jwt-refresh-token-api#readme",
+    author: {
+      name: "King Rayhan",
+      email: "rayhan.dev.bd@gmail.com",
+      github: "https://github.com/kingrayhan",
+      twitter: "https://twitter.com/rayhan095",
+      instagram: "https://www.instagram.com/king_rayhan/",
+    },
   });
 });
 
-router.post("/auth/refresh", verifyRefreshToken, (req, res) => {
-  const token = createToken(req.user);
-  res.json({
-    token,
-  });
-});
-
-router.get("/auth/me", authenticated, (req, res) => {
-  res.json({
-    data: req.user,
-  });
-});
-
+router.post("/auth/login", require("./routes/auth/login"));
+router.post(
+  "/auth/refresh",
+  verifyRefreshToken,
+  require("./routes/auth/refresh")
+);
+router.get("/auth/me", authenticated, require("./routes/auth/me"));
 router.get("/protected-route", authenticated, (req, res) => {
   res.json({
     message: "This is very secret information",
@@ -55,7 +38,6 @@ router.get("/protected-route", authenticated, (req, res) => {
 });
 
 app.use(router);
-
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log("http://localhost:" + port);
